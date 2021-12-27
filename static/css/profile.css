@@ -1,0 +1,290 @@
+.upper {
+    padding: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    /* width: 80%; */
+    /* align-items: center; */
+    justify-content: space-around;
+}
+
+.profileimg img {
+    margin-top: 40px;
+    border-radius: 100%;
+    width: 250px;
+    height: 250px;
+}
+
+.lower {
+    padding: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+.info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: left;
+    width: 40%;
+}
+
+.img {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#username {
+    font-size: 30px;
+    padding: 10px;
+}
+
+#name {
+    font-size: 25px;
+    font-weight: bold;
+    font-weight: italic;
+    padding: 10px;
+}
+
+#location {
+    font-size: 23px;
+    font-weight: italic;
+    padding: 10px;
+}
+
+#symbols {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+#symbols button {
+    padding: 10px;
+    border-radius:100%;
+    background-color:rgb(255, 191, 226);
+    margin:2px;
+
+}
+
+#intro {
+    font-size: 18px;
+    font-weight: italic;
+    padding: 10px;
+}
+
+
+#info1 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#info1 span {
+    font-size: 18px;
+}
+
+#info1 button {
+    height: 40px;
+}
+
+.labels {
+    display: flex;
+    padding: 25px;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+}
+
+.labels button {
+    height: 45px;
+    float: right;
+}
+
+#label {
+    color: rgb(173, 3, 131);
+
+    padding: 5px;
+    margin: 10px;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+#label:hover {
+    background-color: rgb(200, 245, 223);
+}
+
+
+
+#imgbutton {
+    margin: 20px;
+}
+
+#symbols img {
+    margin: 5px;
+    width: 40px;
+    height: 40px;
+}
+
+@media (max-width:1000px) {
+
+    .profileimg img {
+        margin-top: 40px;
+        border-radius: 100%;
+        width: 200px;
+        height: 200px;
+    }
+
+}
+
+
+
+@media (max-width:700px) {
+    .upper {
+        width: 100%;
+    }
+
+    .info {
+        width: 100%;
+    }
+
+
+}
+
+
+
+
+
+#backhome button{
+    margin:5px 5px;
+    background-color: rgb(0, 68, 255);
+    border-radius: 100%;
+    padding: 7px;
+    border:2px solid rgb(39, 130, 248);
+
+    color: white;
+}
+#backhome span{
+font-size:25px;
+}
+div.gallery {
+    border: 1px solid #ccc;
+  }
+  
+  div.gallery:hover {
+    border: 1px solid #777;
+  }
+  
+  div.gallery img {
+    width: 100%;
+    height: auto;
+  }
+  
+  div.desc {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  .responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+  }
+  
+  @media only screen and (max-width: 700px) {
+    .responsive {
+      width: 49.99999%;
+      margin: 6px 0;
+    }
+  }
+  
+  @media only screen and (max-width: 500px) {
+    .responsive {
+      width: 100%;
+    }
+  }
+  
+  .clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+
+
+
+
+  
+  .post {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding-bottom: 8px;
+    /* padding-top: 8px; */
+}
+
+.postimg {
+    height: 100vh;
+    width: 100vw;
+}
+
+.pinfo {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    /* background-color:rgba(255, 255, 255, 0.171); */
+    font-weight: bold;
+    color: #e7007f;
+    text-shadow: -1px 1px 0 #ffd9ee,
+        1px 1px 0 #ffd9ee,
+        1px -1px 0 #ffd9ee,
+        -1px -1px 0 #ffd9ee;
+    ;
+    font-family: 'Alfa Slab One', cursive;
+
+}
+
+.like {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.like h4 {
+    color: rgb(253, 253, 253);
+    text-shadow: 2px 2px #8f014f;
+    padding: 5px;
+}
+
+.like .btn {
+    background-color: rgb(255, 159, 212);
+    /* background-color: rgb(255, 0, 140); */
+    padding: 8px;
+    color: rgb(255, 255, 255);
+    border: 3px solid rgba(255, 58, 179, 0.205);
+    border-radius: 100%;
+}
+
+.like .btn span {
+    font-size: 35px;
+    font-weight: bold;
+    text-shadow: 2px 2px #e7007f;
+
+}
+
+.location1{
+    font-weight: bold;
+    padding:10px;
+    margin-left:5px;
+    color: #e7007f;
+   
+    background-color:rgb(248, 218, 255);
+    border-radius:10px;
+    display: flex;
+}

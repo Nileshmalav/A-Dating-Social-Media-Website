@@ -1,0 +1,216 @@
+{% extends "layout.html" %}
+
+
+{% block title %} Home {% endblock %}
+
+
+
+
+{% block head %}
+<style>
+    #home {
+        border-bottom: 4px solid rgb(247, 62, 133);
+    }
+</style>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+ <!-- location  -->
+ <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+ <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+ <script src="{{ url_for('static', filename='/javascript/location.js') }}"></script>
+ <script src="{{ url_for('static', filename='/javascript/distance.js') }}"></script>
+
+
+<title>Turu Lob</title>
+{% endblock %}
+
+
+
+
+{% block home %} active {% endblock %}
+
+
+
+{% block body %}
+
+<script>
+    function Like(id1, id2, sno) {
+        var x = document.getElementById(id1);
+        var y = document.getElementById(id2);
+        var z=  parseInt(y.innerText);
+        console.log(z)
+        if (x.style.backgroundColor === "rgb(255, 159, 212)") {
+                console.log("liked")
+                const url1 = `/posts/like`
+                $.ajax({
+                    data: {
+                        message: 'liked',
+                        sno: sno
+                    },
+                    url: url1,
+                    type: 'POST',
+                    success: function (response) {
+                        z=z+1;
+                        y.innerHTML=z;
+                        x.style.backgroundColor = "rgb(255, 0, 140)";
+                        console.log("success")
+                    },
+                    error: function (response) {
+                        console.log("error")
+
+                    }
+                });
+            } else if (x.style.backgroundColor === "rgb(255, 0, 140)" ){
+                    console.log("disliked")
+                    const url1 = `/posts/like`
+                    $.ajax({
+                        data: {
+                            message: 'unliked',
+                            sno: sno
+                        },
+                        url: url1,
+                        type: 'POST',
+                        success: function (response) {
+                            z=z-1;
+                            y.innerHTML=z;
+                            x.style.backgroundColor = "rgb(255, 159, 212)";
+                            console.log("success")
+                        },
+                        error: function (response) {
+                            console.log("error")
+
+                        }
+                    });
+
+
+
+                } else {
+                    x.style.backgroundColor = "rgb(255, 159, 212)";
+                    console.log("else")
+                }
+            }
+            
+</script>
+{% for post in posts1 %}
+<div>
+    <div class="post">
+        <img class="postimg" src="/posts/images/{{post.id}}">
+        <div onClick='myredirect("{{post.username}}/profile")' class="info">
+            <h3 class="name">{{post.name}} {{post.age}}  
+            </h3>
+            
+            <h5 class="location">
+                
+                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
+            <p>{{post.ntime}}</p>
+
+        </div>
+        <div class="like">
+            <button onClick="Like('like1{{post.id}}','no1{{post.id}}','{{post.id}}')" id="like1{{post.id}}" type="button"
+                class="btn btn-primary"><span class="material-icons">
+                    thumb_up_off_alt
+                </span></button>
+            <h4 id="no1{{post.id}}">{{post.like}}</h4>
+
+        </div>
+    </div>
+    {% endfor %}
+{% for post in posts2 %}
+<div>
+    <div class="post">
+        <img class="postimg" src="/posts/images/{{post.id}}">
+        <div onClick='myredirect("{{post.username}}/profile")' class="info">
+            <h3 class="name">{{post.name}} {{post.age}}  
+            </h3>
+            
+            <h5 class="location">
+                
+                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
+            <p>{{post.ntime}}</p>
+
+        </div>
+        <div class="like">
+            <button onClick="Like('like2{{post.id}}','no2{{post.id}}','{{post.id}}')" id="like2{{post.id}}" type="button"
+                class="btn btn-primary"><span class="material-icons">
+                    thumb_up_off_alt
+                </span></button>
+            <h4 id="no2{{post.id}}">{{post.like}}</h4>
+
+        </div>
+    </div>
+    {% endfor %}
+{% for post in posts3 %}
+<div>
+    <div class="post">
+        <img class="postimg" src="/posts/images/{{post.id}}">
+        <div onClick='myredirect("{{post.username}}/profile")' class="info">
+            <h3 class="name">{{post.name}} {{post.age}}  
+            </h3>
+            
+            <h5 class="location">
+                
+                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
+            <p>{{post.ntime}}</p>
+
+        </div>
+        <div class="like">
+            <button onClick="Like('like3{{post.id}}','no3{{post.id}}','{{post.id}}')" id="like3{{post.id}}" type="button"
+                class="btn btn-primary"><span class="material-icons">
+                    thumb_up_off_alt
+                </span></button>
+            <h4 id="no3{{post.id}}">{{post.like}}</h4>
+
+        </div>
+    </div>
+    {% endfor %}
+{% for post in posts4 %}
+<div>
+    <div class="post">
+        <img class="postimg" src="/posts/images/{{post.id}}">
+        <div onClick='myredirect("{{post.username}}/profile")' class="info">
+            <h3 class="name">{{post.name}} {{post.age}}  
+            </h3>
+            
+            <h5 class="location">
+                
+                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
+            <p>{{post.ntime}}</p>
+
+        </div>
+        <div class="like">
+            <button onClick="Like('like4{{post.id}}','no4{{post.id}}','{{post.id}}')" id="like4{{post.id}}" type="button"
+                class="btn btn-primary"><span class="material-icons">
+                    thumb_up_off_alt
+                </span></button>
+            <h4 id="no4{{post.id}}">{{post.like}}</h4>
+
+        </div>
+    </div>
+    {% endfor %}
+    <div class="post">
+        <img class="postimg"
+            src="https://images.pexels.com/photos/3824139/pexels-photo-3824139.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
+        <div class="info">
+            <h3 class="name">Nilesh Malav 19 </h3>
+            <h5 class="location">Prayagraj, Utter Pradesh, India</h5>
+            <P>12/18/2021, 21:49:38</P>
+        </div>
+        <div class="like">
+            <button onClick="Like('like','sno')" id="like" type="button" class="btn btn-primary"><span
+                    class="material-icons">
+                    thumb_up_off_alt
+                </span></button>
+            <h4>100k</h4>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function myredirect(myurl) {
+        location.href = myurl;
+    }
+</script>
+{% endblock %}
