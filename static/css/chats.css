@@ -406,3 +406,6 @@ a {
   margin-right:0px;
   width:max-content;
 }
+#chatmessage1r{
+  text-align: right;
+}
