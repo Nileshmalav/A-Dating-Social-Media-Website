@@ -16,4 +16,3 @@
 
 # sample project is live at
 https://turulob.herokuapp.com/
-(Note : socket io is not running at above link so chat application is not working so better run it in local machine)
