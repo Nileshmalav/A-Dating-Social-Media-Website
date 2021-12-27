@@ -58,7 +58,7 @@
                     </div>
                     <div class="search-box">
                         <div class="input-wrapper">
-                            <i id="backhome" onclick="history.back()" class="material-icons">arrow_back_ios</i>
+                            <i id="backhome" onclick="myredirect('/')" class="material-icons">arrow_back_ios</i>
                             <i id="backhome" onclick='myredirect("/search")' class="material-icons">search</i>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                 <!-- chatinfo  -->
                 <div class="settings-tray" id="chatinfo">
                     <div class="friend-drawer no-gutters friend-drawer--grey">
-                        <i id="backhomem" onclick="history.back()" class="material-icons">arrow_back_ios</i>
+                        <i id="backhomem" onclick="myredirect('/chats')" class="material-icons">arrow_back_ios</i>
                         
                         <a href="/{{touser}}/profile">
                             <img class="profile-image" src="/profile/images/{{touser}}" alt="">
@@ -294,28 +294,6 @@
                         $("#chatusers").load('/chats #chatusers');
                     }
                 }
-                else if(data['url']==11){
-                    if ((data.touser == username && data.fromuser==touser)) {
-                        var binaryData = [];
-                        binaryData.push(data.image);
-                        var url=window.URL.createObjectURL(new Blob(binaryData, {type: data.image.mimetype}))
-                        document.querySelector('#chat-panel').innerHTML += `
-                        
-                        <div class="row no-gutters">
-                                <div id="chatimagdiv1l" class="col-md-3">
-                                    <div id="chatimagedivl" class="chat-bubble chat-bubble--left">
-                                        <a href= ${url} >
-                                            <img id="chatimgl" src= ${url} >
-                                        </a>
-                                    </div>
-                                    <p id="messagetimel">${data.sendtime}</p>
-                                </div>
-                            </div>`
-                            
-                            $("#chatusers").load('/chats #chatusers');
-                    }
-                    console.log('image')
-                }
                 else{
                     if ((data.touser == username && data.fromuser==touser)) {
                         
@@ -336,7 +314,6 @@
                     }
                     console.log('sticker')
                 }
-                console.log(data)
             })
 
 

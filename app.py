@@ -1,8 +1,6 @@
 from basicm import *
 from sqlm import *
-from adminm import *
 
-# from .chatm import chatm
 
 
 def create():
@@ -602,21 +600,20 @@ def messageimage(data):
     touser = (data['touser'])
 
     if data['image']!=0:
-        pic = data['image']
         mytouser = touser
         filename = secure_filename(data['filename'])
         mimetype = data['mimetype']
-        img = chatsdb(chatimg=pic, fromuser=username,
-                    touser=touser, imagename=filename, imagemimetype=mimetype)
-        db.session.add(img)
-        db.session.commit()
+        img = chatsdb.query.filter_by(fromuser=username,touser=touser).order_by(chatsdb.date_created.desc()).first()
+
+        
 
 
-        image = {'image':data['image'],'mimetype':data['mimetype'],'url': data['url'], 'fromuser': username,
+        image = {'image':data['image'],'url': f'/chats/images/{img.id+1}', 'fromuser': username,
             'touser': data['touser'], 'sendtime': time1}
     else:
         image={'url': data['url'], 'fromuser': username,
             'touser': data['touser'], 'sendtime': time1}
+    print(image)
     send(image, broadcast=True)
 # socketio code
 # socketio code
