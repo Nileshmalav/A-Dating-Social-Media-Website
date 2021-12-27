@@ -56,7 +56,6 @@ def google_authorize():
     resp = google.get('userinfo').json()
     myuser = userInfodb.query.filter_by(email=resp['email']).first()
     if myuser:
-        print(resp)
         user_object = userpassdb.query.filter_by(
             username=myuser.username).first()
         login_user(user_object)
@@ -613,7 +612,6 @@ def messageimage(data):
     else:
         image={'url': data['url'], 'fromuser': username,
             'touser': data['touser'], 'sendtime': time1}
-    print(image)
     send(image, broadcast=True)
 # socketio code
 # socketio code
