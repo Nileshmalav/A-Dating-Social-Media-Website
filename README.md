@@ -1,4 +1,4 @@
-# Turu Lob By Team Avengers
+# Turu Lob A Dating website using Flask as Backend
 
 
 # to run this project in local machine
