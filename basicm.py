@@ -15,6 +15,9 @@ from flask_mail import Mail
 
 
 
+
+
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"

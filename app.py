@@ -24,6 +24,9 @@ oauth = OAuth(app)
 app.config['GOOGLE_CLIENT_ID'] = "515628424605-0kptp9hkun9m800ljng4j9sujnonup6o.apps.googleusercontent.com"
 app.config['GOOGLE_CLIENT_SECRET'] = "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"
 
+
+
+
 google = oauth.register(
     name='google',
     client_id=app.config["GOOGLE_CLIENT_ID"],
@@ -784,10 +787,10 @@ def home():
         shuffle(posts3)
     if posts4:
         shuffle(posts4)
-
+    posts=posts1+posts2+posts3+posts4
 
     postlike = postslikedb.query.filter_by(fusername=username).all()
-    return render_template('home.html', username=username, posts1=posts1 , posts2=posts2 , posts3=posts3 , posts4=posts4 , postlike=postlike, me=me)
+    return render_template('home.html', username=username, posts=posts , postlike=postlike, me=me)
 
 
 @app.route("/posts/images", methods=['GET', 'POST'])

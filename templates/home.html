@@ -93,7 +93,7 @@
             }
             
 </script>
-{% for post in posts1 %}
+{% for post in posts %}
 <div>
     <div class="post">
         <img class="postimg" src="/posts/images/{{post.id}}">
@@ -117,78 +117,7 @@
         </div>
     </div>
     {% endfor %}
-{% for post in posts2 %}
-<div>
-    <div class="post">
-        <img class="postimg" src="/posts/images/{{post.id}}">
-        <div onClick='myredirect("{{post.username}}/profile")' class="info">
-            <h3 class="name">{{post.name}} {{post.age}}  
-            </h3>
-            
-            <h5 class="location">
-                
-                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
-            <p>{{post.ntime}}</p>
 
-        </div>
-        <div class="like">
-            <button onClick="Like('like2{{post.id}}','no2{{post.id}}','{{post.id}}')" id="like2{{post.id}}" type="button"
-                class="btn btn-primary"><span class="material-icons">
-                    thumb_up_off_alt
-                </span></button>
-            <h4 id="no2{{post.id}}">{{post.like}}</h4>
-
-        </div>
-    </div>
-    {% endfor %}
-{% for post in posts3 %}
-<div>
-    <div class="post">
-        <img class="postimg" src="/posts/images/{{post.id}}">
-        <div onClick='myredirect("{{post.username}}/profile")' class="info">
-            <h3 class="name">{{post.name}} {{post.age}}  
-            </h3>
-            
-            <h5 class="location">
-                
-                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
-            <p>{{post.ntime}}</p>
-
-        </div>
-        <div class="like">
-            <button onClick="Like('like3{{post.id}}','no3{{post.id}}','{{post.id}}')" id="like3{{post.id}}" type="button"
-                class="btn btn-primary"><span class="material-icons">
-                    thumb_up_off_alt
-                </span></button>
-            <h4 id="no3{{post.id}}">{{post.like}}</h4>
-
-        </div>
-    </div>
-    {% endfor %}
-{% for post in posts4 %}
-<div>
-    <div class="post">
-        <img class="postimg" src="/posts/images/{{post.id}}">
-        <div onClick='myredirect("{{post.username}}/profile")' class="info">
-            <h3 class="name">{{post.name}} {{post.age}}  
-            </h3>
-            
-            <h5 class="location">
-                
-                 {{post.City}}, {{post.State}}, {{post.Country}}</h5>
-            <p>{{post.ntime}}</p>
-
-        </div>
-        <div class="like">
-            <button onClick="Like('like4{{post.id}}','no4{{post.id}}','{{post.id}}')" id="like4{{post.id}}" type="button"
-                class="btn btn-primary"><span class="material-icons">
-                    thumb_up_off_alt
-                </span></button>
-            <h4 id="no4{{post.id}}">{{post.like}}</h4>
-
-        </div>
-    </div>
-    {% endfor %}
     <div class="post">
         <img class="postimg"
             src="https://images.pexels.com/photos/3824139/pexels-photo-3824139.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
