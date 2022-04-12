@@ -344,6 +344,25 @@ def otpfpverification(sno):
             return render_template("/LoginSignup/otpfp.html", message="OTP entered is incorrect!", sno=sno)
 
 
+@app.route("/resetpassword", methods=['GET', 'POST'])
+def resetpassword():
+    if request.method=="POST":
+        username=request.form["username"]
+        password=request.form["password"]
+        
+        newpass=request.form["password1"]
+        newpass2=request.form["password2"]
+        if newpass!=newpass2:
+            return render_template("/LoginSignup/userlogpass.html", username=username, password=password,message="passwords are not same")
+        userpass = userpassdb.query.filter_by(username=username).first()
+        if password==userpass.password:
+            userpass.password=newpass
+        db.session.commit()
+        user_object = userpassdb.query.filter_by(
+            username=username).first()
+        login_user(user_object)
+        return redirect("/")
+
 # otp resend
 # otp resend
 @app.route("/forgetpassword/otpresend/<int:sno>", methods=['GET', 'POST'])
