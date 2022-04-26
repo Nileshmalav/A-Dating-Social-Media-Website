@@ -2,6 +2,8 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, Response, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import  ForeignKey
+
 from datetime import datetime
 from werkzeug.utils import redirect, secure_filename
 from flask_login import LoginManager, UserMixin, login_user, current_user, login_required, logout_user
@@ -11,9 +13,10 @@ from random import randint
 import json
 from authlib.integrations.flask_client import OAuth
 from flask_mail import Mail
+from sqlalchemy.orm import relationship
 
-
-
+from flask_admin.contrib.sqla import ModelView
+from flask_admin import Admin ,AdminIndexView
 
 
 
@@ -21,7 +24,7 @@ from flask_mail import Mail
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///todo.db"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
 

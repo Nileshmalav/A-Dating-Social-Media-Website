@@ -25,7 +25,8 @@
             #userscreen {
                 display: none;
             }
-            #backhomem{
+
+            #backhomem {
                 display: block;
             }
         }
@@ -37,8 +38,6 @@
         <div class="row no-gutters">
             <div id="userscreen" class="col-md-4 border-right">
 
-                <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
                 <!-- my info + search box and options -->
                 <div id="myinfo">
                     <div class="settings-tray">
@@ -64,40 +63,36 @@
                     </div>
                 </div>
                 <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
+                
 
 
                 <!-- users for chat  -->
-                <!-- users for chat  -->
-                <!-- users for chat  -->
-
                 <div id="chatusers">
 
                     {% for user in chatusers  %}
 
-                    {% if user.fromuser==username %}
-                    <div onclick='myredirect("/chats/{{user.touser}}")' class="friend-drawer friend-drawer--onhover">
-                        <a href="/{{user.touser}}/profile">
-                            <img class="profile-image" src="/profile/images/{{user.touser}}" alt="">
+                    {% if user.from_user==username %}
+                    <div onclick='myredirect("/chats/{{user.to_user}}")' class="friend-drawer friend-drawer--onhover">
+                        <a href="/{{user.to_user}}/profile">
+                            <img class="profile-image" src="/profile/images/{{user.to_user}}" alt="">
                         </a>
                         <div class="text">
-                            <h6>{{user.touser}}</h6>
-                            <p class="text-muted">{{user.lastmessage}}</p>
+                            <h6>{{user.to_user}}</h6>
+                            <p class="text-muted">{{user.last_message}}</p>
                         </div>
-                        <span class="time text-muted small">{{user.chatusertime}}</span>
+                        <span class="time text-muted small">{{user.chat_user_time}}</span>
                     </div>
                     <hr>
                     {% else %}
-                    <div onclick='myredirect("/chats/{{user.fromuser}}")' class="friend-drawer friend-drawer--onhover">
-                        <a href="/{{user.fromuser}}/profile">
-                            <img class="profile-image" src="/profile/images/{{user.fromuser}}" alt="">
+                    <div onclick='myredirect("/chats/{{user.from_user}}")' class="friend-drawer friend-drawer--onhover">
+                        <a href="/{{user.from_user}}/profile">
+                            <img class="profile-image" src="/profile/images/{{user.from_user}}" alt="">
                         </a>
                         <div class="text">
-                            <h6>{{user.fromuser}}</h6>
-                            <p class="text-muted">{{user.lastmessage}}</p>
+                            <h6>{{user.from_user}}</h6>
+                            <p class="text-muted">{{user.last_message}}</p>
                         </div>
-                        <span class="time text-muted small">{{user.chatusertime}}</span>
+                        <span class="time text-muted small">{{user.chat_user_time}}</span>
                     </div>
                     <hr>
                     {% endif %}
@@ -120,17 +115,18 @@
                 <div class="settings-tray" id="chatinfo">
                     <div class="friend-drawer no-gutters friend-drawer--grey">
                         <i id="backhomem" onclick="myredirect('/chats')" class="material-icons">arrow_back_ios</i>
-                        
-                        <a href="/{{touser}}/profile">
-                            <img class="profile-image" src="/profile/images/{{touser}}" alt="">
+
+                        <a href="/{{touser.username}}/profile">
+                            <img class="profile-image" src="/profile/images/{{touser.username}}" alt="">
                         </a>
                         <div class="text">
-                            <h6>{{touser}}</h6>
-                            <p class="text-muted">{{mtouser.intro[:25]}}</p>
+                            <h6>{{touser.first_name}} {{touser.last_name}}</h6>
+                            <p class="text-muted">{{touser.intro[:25]}}</p>
                         </div>
                         <span class="settings-tray--right">
                             <i onclick="myredirect('https://videocall.nileshmalav.co/')" class="material-icons">call</i>
-                            <i onclick="myredirect('https://videocall.nileshmalav.co/')" class="material-icons">videocam</i>
+                            <i onclick="myredirect('https://videocall.nileshmalav.co/')"
+                                class="material-icons">videocam</i>
                             <i class="material-icons">info</i>
                         </span>
                     </div>
@@ -151,61 +147,61 @@
 
                         {% for chat in chats %}
 
-                        {% if chat.fromuser==username and chat.touser==touser %}
+                            {% if chat.from_user==username and chat.to_user==touser.username %}
 
-                        {% if chat.chatimg %}
+                                {% if chat.chat_img %}
 
-                        <div id="chatimagdiv2r" class="row no-gutters">
-                            <div id="chatimagdiv1r" class="col-md-3 offset-md-9">
-                                <div id="chatimagedivr" class="chat-bubble chat-bubble--right">
-                                    <a href="/chats/images/{{chat.id}}">
-                                        <img id="chatimgr" src="/chats/images/{{chat.id}}">
-                                    </a>
+                                <div id="chatimagdiv2r" class="row no-gutters">
+                                    <div id="chatimagdiv1r" class="col-md-3 offset-md-9">
+                                        <div id="chatimagedivr" class="chat-bubble chat-bubble--right">
+                                            <a href="/chats/images/{{chat.id}}">
+                                                <img id="chatimgr" src="/chats/images/{{chat.id}}">
+                                            </a>
+                                        </div>
+                                        <p id="messagetimer">{{chat.chat_time}}</p>
+                                    </div>
                                 </div>
-                                <p id="messagetimer">{{chat.chattime}}</p>
-                            </div>
-                        </div>
 
 
-                        {% else %}
+                                {% else %}
 
 
-                        <div class="row no-gutters">
-                            <div id="chat1msg" class="col-md-3 offset-md-9">
-                                <div class="chat-bubble chat-bubble--right">
-                                    {{chat.chatmessage}}
+                                <div class="row no-gutters">
+                                    <div id="chat1msg" class="col-md-3 offset-md-9">
+                                        <div class="chat-bubble chat-bubble--right">
+                                            {{chat.chat_message}}
+                                        </div>
+                                        <p id="messagetimer">{{chat.chat_time}}</p>
+                                    </div>
                                 </div>
-                                <p id="messagetimer">{{chat.chattime}}</p>
-                            </div>
-                        </div>
 
-                        {% endif %}
+                                {% endif %}
 
-                        {% elif chat.fromuser==touser and chat.touser==username %}
-                        {% if chat.chatimg %}
+                            {% elif chat.from_user==touser.username and chat.to_user==username %}
+                                {% if chat.chat_img %}
 
-                        <div class="row no-gutters">
-                            <div id="chatimagdiv1l" class="col-md-3">
-                                <div id="chatimagedivl" class="chat-bubble chat-bubble--left">
-                                    <a href="/chats/images/{{chat.id}}">
-                                        <img id="chatimgl" src="/chats/images/{{chat.id}}">
-                                    </a>
+                                <div class="row no-gutters">
+                                    <div id="chatimagdiv1l" class="col-md-3">
+                                        <div id="chatimagedivl" class="chat-bubble chat-bubble--left">
+                                            <a href="/chats/images/{{chat.id}}">
+                                                <img id="chatimgl" src="/chats/images/{{chat.id}}">
+                                            </a>
+                                        </div>
+                                        <p id="messagetimel">{{chat.chat_time}}</p>
+                                    </div>
                                 </div>
-                                <p id="messagetimel">{{chat.chattime}}</p>
-                            </div>
-                        </div>
-                        {% else %}
+                                {% else %}
 
-                        <div class="row no-gutters">
-                            <div id="chat2msg" class="col-md-3">
-                                <div class="chat-bubble chat-bubble--left">
-                                    {{chat.chatmessage}}
+                                <div class="row no-gutters">
+                                    <div id="chat2msg" class="col-md-3">
+                                        <div class="chat-bubble chat-bubble--left">
+                                            {{chat.chat_message}}
+                                        </div>
+                                        <p id="messagetimel">{{chat.chat_time}}</p>
+                                    </div>
                                 </div>
-                                <p id="messagetimel">{{chat.chattime}}</p>
-                            </div>
-                        </div>
-                        {% endif %}
-                        {% endif %}
+                                {% endif %}
+                            {% endif %}
 
                         {% endfor %}
                     </div>
@@ -215,9 +211,9 @@
                     <div class="row" id="chatinput">
                         <div class="col-12">
                             <div class="chat-box-tray">
-                                <i onClick="myredirectimage('/chats/{{touser}}/imageupload')" id="messageimage"
+                                <i onClick="myredirectimage('/chats/{{touser.username}}/imageupload')" id="messageimage"
                                     class="material-icons">add_photo_alternate</i>
-                                <i onClick="myredirectstickers('/chats/{{touser}}/stickers')"
+                                <i onClick="myredirectstickers('/chats/{{touser.username}}/stickers')"
                                     class="material-icons">sentiment_very_satisfied</i>
                                 <input id="messageinput" class="messageinput" type="text"
                                     placeholder="Type your message here...">
@@ -260,9 +256,9 @@
             });
             socket.on('message', data => {
                 const username = '{{username}}';
-                const touser = '{{touser}}';
+                const touser = '{{touser.username}}';
                 // console.log(data.fromuser, username, data.touser, touser)
-                if(data.url==0){
+                if (data.url == 0) {
 
                     if ((data.fromuser == username) && (data.touser == touser)) {
                         document.querySelector('#chat-panel').innerHTML += `
@@ -276,11 +272,11 @@
                                     <p id="messagetimer">${data.sendtime}</p>
                                 </div>
                             </div>`
-    
+
                         $("#chatusers").load('/chats #chatusers');
-    
+
                     } else if ((data.touser == username) && (data.fromuser == touser)) {
-    
+
                         document.querySelector('#chat-panel').innerHTML += `    
                             <div class="row no-gutters">
                                 <div class="col-md-3">
@@ -290,13 +286,12 @@
                                     <p id="messagetimel">${data.sendtime}</p>
                                 </div>
                             </div>`
-    
+
                         $("#chatusers").load('/chats #chatusers');
                     }
-                }
-                else{
-                    if ((data.touser == username && data.fromuser==touser)) {
-                        
+                } else {
+                    if ((data.touser == username && data.fromuser == touser)) {
+
                         document.querySelector('#chat-panel').innerHTML += `
                         
                         <div class="row no-gutters">
@@ -309,8 +304,8 @@
                                     <p id="messagetimel">${data.sendtime}</p>
                                 </div>
                             </div>`
-                            
-                            $("#chatusers").load('/chats #chatusers');
+
+                        $("#chatusers").load('/chats #chatusers');
                     }
                     console.log('sticker')
                 }
@@ -319,7 +314,7 @@
 
             document.querySelector('#messagesend').onclick = () => {
                 const chat1 = document.getElementById('messageinput').value
-                const mytouser = '{{touser}}'
+                const mytouser = '{{touser.username}}'
                 const username = '{{username}}'
                 msg = {
                     'chat': chat1,
@@ -336,21 +331,20 @@
 
 
             var input = document.getElementById("messageinput");
-            input.addEventListener("keyup", function(event) {
-              if (event.keyCode === 13) {
-                const chat1 = document.getElementById('messageinput').value
-                const mytouser = '{{touser}}'
-                const username = '{{username}}'
-                msg = {
-                    'chat': chat1,
-                    'touser': mytouser,
-                    'username': username
+            input.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    const chat1 = document.getElementById('messageinput').value
+                    const mytouser = '{{touser.username}}'
+                    const username = '{{username}}'
+                    msg = {
+                        'chat': chat1,
+                        'touser': mytouser,
+                        'username': username
+                    }
+                    socket.send(msg)
+                    //console.log(msg)
+                    document.getElementById('messageinput').value = ""
                 }
-                socket.send(msg)
-                //console.log(msg)
-                //sendMessage()
-                document.getElementById('messageinput').value = ""
-              }
             });
 
             var objDiv = document.getElementById("chat-panel");

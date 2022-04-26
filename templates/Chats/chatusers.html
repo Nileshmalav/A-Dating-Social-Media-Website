@@ -36,8 +36,7 @@
             <div class="col-md-4 border-right">
 
                 <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
+    
                 <div id="myinfo">
                     <div class="settings-tray">
                         <a href="/{{username}}/profile">
@@ -62,12 +61,7 @@
                     </div>
                 </div>
                 <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
-                <!-- my info + search box and options -->
-
-
-                <!-- users for chat  -->
-                <!-- users for chat  -->
+            
                 <!-- users for chat  -->
 
                 <div id="chatusers">
@@ -75,31 +69,31 @@
 
                     {% for user in chatusers %}
 
-                    {% if user.fromuser==username %}
-                    <div onclick='myredirect("/chats/{{user.touser}}")' class="friend-drawer friend-drawer--onhover">
-                        <a href="/{{user.fromuser}}/profile">
-                            <img class="profile-image" src="/profile/images/{{user.touser}}" alt="">
-                        </a>
-                        <div class="text">
-                            <h6>{{user.touser}}</h6>
-                            <p class="text-muted">{{user.lastmessage}}</p>
+                        {% if user.from_user==username %}
+                        <div onclick='myredirect("/chats/{{user.to_user}}")' class="friend-drawer friend-drawer--onhover">
+                            <a href="/{{user.to_user}}/profile">
+                                <img class="profile-image" src="/profile/images/{{user.to_user}}" alt="">
+                            </a>
+                            <div class="text">
+                                <h6>{{user.to_user}}</h6>
+                                <p class="text-muted">{{user.last_message}}</p>
+                            </div>
+                            <span class="time text-muted small">{{user.chat_user_time}}</span>
                         </div>
-                        <span class="time text-muted small">{{user.chatusertime}}</span>
-                    </div>
-                    <hr>
-                    {% else %}
-                    <div onclick='myredirect("/chats/{{user.fromuser}}")' class="friend-drawer friend-drawer--onhover">
-                        <a href="/{{user.fromuser}}/profile">
-                            <img class="profile-image" src="/profile/images/{{user.fromuser}}" alt="">
-                        </a>
-                        <div class="text">
-                            <h6>{{user.fromuser}}</h6>
-                            <p class="text-muted">{{user.lastmessage}}</p>
+                        <hr>
+                        {% else %}
+                        <div onclick='myredirect("/chats/{{user.from_user}}")' class="friend-drawer friend-drawer--onhover">
+                            <a href="/{{user.from_user}}/profile">
+                                <img class="profile-image" src="/profile/images/{{user.from_user}}" alt="">
+                            </a>
+                            <div class="text">
+                                <h6>{{user.from_user}}</h6>
+                                <p class="text-muted">{{user.last_message}}</p>
+                            </div>
+                            <span class="time text-muted small">{{user.chat_user_time}}</span>
                         </div>
-                        <span class="time text-muted small">{{user.chatusertime}}</span>
-                    </div>
-                    <hr>
-                    {% endif %}
+                        <hr>
+                        {% endif %}
 
                     {% endfor %}
                     

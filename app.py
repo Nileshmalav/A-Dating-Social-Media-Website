@@ -1,6 +1,6 @@
+
 from basicm import *
 from sqlm import *
-
 
 
 def create():
@@ -23,8 +23,6 @@ def sample():
 oauth = OAuth(app)
 app.config['GOOGLE_CLIENT_ID'] = "515628424605-0kptp9hkun9m800ljng4j9sujnonup6o.apps.googleusercontent.com"
 app.config['GOOGLE_CLIENT_SECRET'] = "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"
-
-
 
 
 google = oauth.register(
@@ -100,6 +98,11 @@ def index():
 # login logout
 # login logout
 # login logout
+# @login.unauthorized_handler
+# def unauthorized():
+#     return redirect("/")
+
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -273,8 +276,8 @@ def signup2(sno):
 
     userna = userpassdb.query.filter_by(username=username).all()
     if not userna:
-        user = userpassdb(username=username, password=password, sno=sno)
         userinfo = userInfodb.query.filter_by(sno=sno).first()
+        user = userpassdb(username=username,email=userinfo.email, password=password, sno=sno)
         userinfo.username = username
         db.session.add(user)
         db.session.commit()
@@ -346,17 +349,17 @@ def otpfpverification(sno):
 
 @app.route("/resetpassword", methods=['GET', 'POST'])
 def resetpassword():
-    if request.method=="POST":
-        username=request.form["username"]
-        password=request.form["password"]
-        
-        newpass=request.form["password1"]
-        newpass2=request.form["password2"]
-        if newpass!=newpass2:
-            return render_template("/LoginSignup/userlogpass.html", username=username, password=password,message="passwords are not same")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        newpass = request.form["password1"]
+        newpass2 = request.form["password2"]
+        if newpass != newpass2:
+            return render_template("/LoginSignup/userlogpass.html", username=username, password=password, message="passwords are not same")
         userpass = userpassdb.query.filter_by(username=username).first()
-        if password==userpass.password:
-            userpass.password=newpass
+        if password == userpass.password:
+            userpass.password = newpass
         db.session.commit()
         user_object = userpassdb.query.filter_by(
             username=username).first()
@@ -365,6 +368,8 @@ def resetpassword():
 
 # otp resend
 # otp resend
+
+
 @app.route("/forgetpassword/otpresend/<int:sno>", methods=['GET', 'POST'])
 def otpfpresend(sno):
     myuser = userInfodb.query.filter_by(sno=sno).first()
@@ -409,11 +414,8 @@ def profile(myusername):
     username = user_object.username
     user = userInfodb.query.filter_by(username=myusername).first()
     me = userInfodb.query.filter_by(username=username).first()
-    images = otherprofileImagesdb.query.filter_by(username=myusername).all()
-    posts = postsdb.query.filter_by(username=myusername).order_by(
-        postsdb.date_created.desc()).all()
-    postlike = postslikedb.query.filter_by(fusername=username).all()
-    return render_template("Profile/profile.html", user=user, me=me, images=images, username=username, posts=posts, postlike=postlike)
+
+    return render_template("Profile/profile.html", user=user, me=me, username=username)
 # main profile
 # main profile
 
@@ -426,7 +428,7 @@ def profileEdit():
     user_object = load_user(current_user.get_id())
     username = user_object.username
     userinfo = userInfodb.query.filter_by(username=username).first()
-    userpass=userpassdb.query.filter_by(username=username).first()
+    userpass = userpassdb.query.filter_by(username=username).first()
     if request.method == 'POST':
         username1 = request.form['username']
         if username != username1:
@@ -449,11 +451,11 @@ def profileEdit():
         userinfo.facebook = request.form['facebook']
         userinfo.instagram = request.form['instagram']
         if request.form['locationCity']:
-            userinfo.locationCity = request.form['locationCity']
+            userinfo.location_City = request.form['locationCity']
         if request.form['locationState']:
-            userinfo.locationState = request.form['locationState']
+            userinfo.location_State = request.form['locationState']
         if request.form['locationCountry']:
-            userinfo.locationCountry = request.form['locationCountry']
+            userinfo.location_Country = request.form['locationCountry']
         db.session.commit()
         return redirect(f"/{username1}/profile")
     return render_template("Profile/profileedit.html", user=userinfo)
@@ -479,8 +481,8 @@ def profileupload():
         if not filename or not mimetype:
             return 'Bad upload!', 400
         user.img = pic.read()
-        user.imgname = filename
-        user.imgmimetype = mimetype
+        user.img_name = filename
+        user.img_mimetype = mimetype
         db.session.commit()
         return redirect("/profile/editprofile")
     else:
@@ -497,7 +499,7 @@ def RouteImgProfile(username):
     if not img:
         return 'Img Not Found!', 404
 
-    return Response(img.img, mimetype=img.imgmimetype)
+    return Response(img.img, mimetype=img.img_mimetype)
 # show profile image
 
 # add delete other images
@@ -519,15 +521,15 @@ def profileotherpictures(myusername):
         mimetype = pic.mimetype
         if not filename or not mimetype:
             return 'Bad upload!', 400
-        img = otherprofileImagesdb(
+        img = otherProfileImagesdb(
             username=username, img=pic.read(), name=filename, mimetype=mimetype)
 
         db.session.add(img)
         db.session.commit()
         return redirect(f"/profile/{username}/otherimages")
 
-    images = otherprofileImagesdb.query.filter(otherprofileImagesdb.username == myusername).order_by(
-        otherprofileImagesdb.date_created.desc()).all()
+    images = otherProfileImagesdb.query.filter(otherProfileImagesdb.username == myusername).order_by(
+        otherProfileImagesdb.date_created.desc()).all()
 
     return render_template("Profile/otherimage.html", images=images, username=username)
 # add delete other images
@@ -537,7 +539,7 @@ def profileotherpictures(myusername):
 # route other profile images
 @app.route("/profile/otherprofileimages/<int:id>")
 def Routeotherprofileimage(id):
-    img = otherprofileImagesdb.query.filter_by(id=id).first()
+    img = otherProfileImagesdb.query.filter_by(id=id).first()
     if not img:
         return 'Img Not Found!', 404
     return Response(img.img, mimetype=img.mimetype)
@@ -551,7 +553,7 @@ def Routeotherprofileimage(id):
 def deleteotherprofileimage(id):
     user_object = load_user(current_user.get_id())
     username = user_object.username
-    img = otherprofileImagesdb.query.filter_by(id=id).first()
+    img = otherProfileImagesdb.query.filter_by(id=id).first()
     if img.username == username:
         db.session.delete(img)
         db.session.commit()
@@ -573,42 +575,42 @@ def deleteotherprofileimage(id):
 @login_required
 def message(data):
     user_object = load_user(current_user.get_id())
-    username = user_object.username  # data['username']
+    username = user_object.username 
     time = datetime.now()
     time1 = time.strftime("%m/%d/%Y, %H:%M:%S")
 
     msg = {'chat': data['chat'], 'fromuser': username,
-           'touser': data['touser'], 'sendtime': time1,'url':0}
+           'touser': data['touser'], 'sendtime': time1, 'url': 0}
+    
     touser = (data['touser'])
+    
     chat = data['chat']
-    chats = chatsdb(touser=touser, fromuser=username, chatmessage=chat)
+    chats = chatsdb(to_user=touser, from_user=username, chat_message=chat)
 
     chatsuser1 = chatsuserdb.query.filter_by(
-        fromuser=username, touser=touser).first()
+        from_user=username, to_user=touser).first()
 
     chatsuser2 = chatsuserdb.query.filter_by(
-        fromuser=touser, touser=username).first()
+        from_user=touser, to_user=username).first()
     chatsuser = chatsuser = chatsuserdb.query.filter(
-        (chatsuserdb.fromuser == username), (chatsuserdb.touser == touser)).first()
+        (chatsuserdb.from_user == username), (chatsuserdb.to_user == touser)).first()
+    
     if chatsuser1 != None:
         chatsuser = chatsuser1
     elif chatsuser2 != None:
         chatsuser = chatsuser2
 
     if chatsuser:
-        chatsuser.lastmessage = chat
-        chatsuser.chatusertime = time1
+        chatsuser.last_message = chat
+        chatsuser.chat_user_time = time1
         chatsuser.date_created = time
     else:
-        chatsuser = chatsuserdb(touser=touser, fromuser=username,
-                                lastmessage=chat, chatusertime=time1, date_created=time)
+        chatsuser = chatsuserdb(to_user=touser, from_user=username,
+                                last_message=chat, chat_user_time=time1, date_created=time)
         db.session.add(chatsuser)
     db.session.add(chats)
     db.session.commit()
     send(msg, broadcast=True)
-    
-
-
 
 
 @socketio.on('imageroom')
@@ -620,20 +622,18 @@ def messageimage(data):
     time1 = time.strftime("%m/%d/%Y, %H:%M:%S")
     touser = (data['touser'])
 
-    if data['image']!=0:
+    if data['image'] != 0:
         mytouser = touser
         filename = secure_filename(data['filename'])
         mimetype = data['mimetype']
-        img = chatsdb.query.filter_by(fromuser=username,touser=touser).order_by(chatsdb.date_created.desc()).first()
+        img = chatsdb.query.filter_by(from_user=username, to_user=touser).order_by(
+            chatsdb.date_created.desc()).first()
 
-        
-
-
-        image = {'image':data['image'],'url': f'/chats/images/{img.id+1}', 'fromuser': username,
-            'touser': data['touser'], 'sendtime': time1}
+        image = {'image': data['image'], 'url': f'/chats/images/{img.id+1}', 'fromuser': username,
+                 'touser': data['touser'], 'sendtime': time1}
     else:
-        image={'url': data['url'], 'fromuser': username,
-            'touser': data['touser'], 'sendtime': time1}
+        image = {'url': data['url'], 'fromuser': username,
+                 'touser': data['touser'], 'sendtime': time1}
     send(image, broadcast=True)
 # socketio code
 # socketio code
@@ -644,10 +644,11 @@ def messageimage(data):
 def chats():
     user_object = load_user(current_user.get_id())
     username = user_object.username
+    user=(userInfodb.query.filter_by(username=username).first())
     chatsusers = chatsuserdb.query.filter(
-        (chatsuserdb.fromuser == username) | (chatsuserdb.touser == username)).order_by(chatsuserdb.date_created.desc()).all()
+        (chatsuserdb.from_user == username) | (chatsuserdb.to_user == username)).order_by(chatsuserdb.date_created.desc()).all()
 
-    return render_template("Chats/chatusers.html", username=username, chatusers=chatsusers)
+    return render_template("Chats/chatusers.html", myuser=user , username=username, chatusers=chatsusers)
 
 
 # chat screen to user
@@ -657,17 +658,23 @@ def chats():
 def userchats(touser):
     user_object = load_user(current_user.get_id())
     username = user_object.username
+    username = user_object.username
+    myuser=(userInfodb.query.filter_by(username=username).first())
+    
     chatsusers = chatsuserdb.query.filter(
-        (chatsuserdb.fromuser == username) | (chatsuserdb.touser == username)).order_by(chatsuserdb.date_created.desc()).all()
-    mtouser = userInfodb.query.filter_by(username=touser).first()
+        (chatsuserdb.from_user == username) | (chatsuserdb.to_user == username)).order_by(chatsuserdb.date_created.desc()).all()
+    
+    mytouser = userInfodb.query.filter_by(username=touser).first()
     mychats = chatsdb.query.filter(
-        (chatsdb.fromuser == username) | (chatsdb.touser == username)).all()
-    return render_template("Chats/chatscreen.html", username=username, mtouser=mtouser, chatusers=chatsusers, touser=touser, chats=mychats)
+        (chatsdb.from_user == username) | (chatsdb.to_user == username)).all()
+    return render_template("Chats/chatscreen.html", username=username,myuser=myuser, touser=mytouser, chatusers=chatsusers, chats=mychats)
 # chat screen to user
 # chat screen to user
 
 # chat image
 # chat image
+
+
 @app.route("/chats/images/<int:id>")
 @login_required
 def chatimages(id):
@@ -675,11 +682,11 @@ def chatimages(id):
     username = user_object.username
     chatsimg = chatsdb.query.filter(chatsdb.id == id).first()
 
-    if chatsimg.fromuser == username or chatsimg.touser == username:
+    if chatsimg.from_user == username or chatsimg.to_user == username:
         if not chatsimg:
             return 'Img Not Found!', 404
 
-        return Response(chatsimg.chatimg, mimetype=chatsimg.imagemimetype)
+        return Response(chatsimg.chat_img, mimetype=chatsimg.image_mimetype)
     else:
         return "Nothing here"
 # chat image
@@ -704,8 +711,8 @@ def chatimageupload(touser):
         if not filename or not mimetype:
             return 'Bad upload!', 400
 
-        img = chatsdb(chatimg=pic.read(), fromuser=username,
-                      touser=mytouser, imagename=filename, imagemimetype=mimetype)
+        img = chatsdb(chat_img=pic.read(), from_user=username,
+                      to_user=mytouser, image_name=filename, image_mimetype=mimetype)
         db.session.add(img)
         db.session.commit()
         return redirect(f"/chats/{touser}")
@@ -738,8 +745,8 @@ def chatStickerSend(touser, id):
     sticker = stickersdb.query.filter_by(id=id).first()
     pic = sticker.img
     if request.method == "GET":
-        img = chatsdb(chatimg=pic, fromuser=username,
-                      touser=touser, imagename=sticker.name, imagemimetype=sticker.mimetype)
+        img = chatsdb(chat_img=pic, from_user=username,
+                      to_user=touser, image_name=sticker.name, image_mimetype=sticker.mimetype)
         db.session.add(img)
         db.session.commit()
         return redirect(f"/chats/{touser}")
@@ -794,22 +801,11 @@ def home():
     user = userInfodb.query.filter_by(username=username).first()
     me = userInfodb.query.filter_by(username=username).first()
 
-    posts1 = postsdb.query.filter_by(City=user.locationCity).order_by(postsdb.date_created.desc()).all()
-    posts2 = postsdb.query.filter_by(State=user.locationState).order_by(postsdb.date_created.desc()).all()
-    posts3 = postsdb.query.filter_by(Country=user.locationCountry).order_by(postsdb.date_created.desc()).all()
-    posts4 = postsdb.query.order_by(postsdb.date_created.desc()).all()
-    if posts1:
-        shuffle(posts1)
-    if posts2:
-        shuffle(posts2)
-    if posts3:
-        shuffle(posts3)
-    if posts4:
-        shuffle(posts4)
-    posts=posts1+posts2+posts3+posts4
-
-    postlike = postslikedb.query.filter_by(fusername=username).all()
-    return render_template('home.html', username=username, posts=posts , postlike=postlike, me=me)
+    posts = postsdb.query.join(userInfodb).order_by(
+        postsdb.date_created.desc())
+    # posts = db.session.query(postsdb, userInfodb).join(userInfodb)
+    postlike = postslikedb.query.filter_by(from_username=username).all()
+    return render_template('home.html', username=username, posts=posts, postlike=postlike, me=me)
 
 
 @app.route("/posts/images", methods=['GET', 'POST'])
@@ -820,6 +816,7 @@ def postImageul():
     user = userInfodb.query.filter_by(username=username).first()
     if request.method == 'POST':
         pic = request.files['pic']
+        text=request.form['text']
         if not pic:
             return 'No pic uploaded!', 400
 
@@ -827,8 +824,8 @@ def postImageul():
         mimetype = pic.mimetype
         if not filename or not mimetype:
             return 'Bad upload!', 400
-        post = postsdb(username=username, name=f"{user.first_name} {user.last_name}", age=user.age,
-                       latitude=user.latitude, longitude=user.longitude, City=user.locationCity, State=user.locationState, Country=user.locationCountry, img=pic.read(), imagename=filename, imagemimetype=mimetype)
+        post = postsdb(username=username,text=text, name=f"{user.first_name} {user.last_name}", img=pic.read(
+        ), image_name=filename, image_mimetype=mimetype)
         db.session.add(post)
         db.session.commit()
         return redirect("/")
@@ -843,7 +840,7 @@ def postImage(sno):
     if not img:
         return 'Img Not Found!', 404
 
-    return Response(img.img, mimetype=img.imagemimetype)
+    return Response(img.img, mimetype=img.image_mimetype)
 
 
 @app.route("/posts/like", methods=['GET', 'POST'])
@@ -855,20 +852,20 @@ def postLike():
         sno = request.form['sno']
         myuser = userInfodb.query.filter_by(username=username).first()
         post = postsdb.query.filter_by(id=sno).first()
-        user = postslikedb.query.filter_by(fusername=username).first()
+        user = postslikedb.query.filter_by(from_username=username).first()
         if user:
             db.session.delete(user)
-            like = int(post.like)-1
+            like = int(post.like_count)-1
             if like < 0:
                 like = 0
-            post.like = like
+            post.like_count = like
 
         else:
-            user = postslikedb(fusername=username, postid=sno)
-            like = int(post.like)+1
+            user = postslikedb(from_username=username, post_id=sno)
+            like = int(post.like_count)+1
             if like < 0:
                 like = 0
-            post.like = like
+            post.like_count = like
             noti = notificationdb(username=username,
                                   text=f"New like to your post from {myuser.first_name} {myuser.last_name}😍", type='post', link=f'/{username}/profile', title="❤️New Like")
             db.session.add(user)
@@ -898,11 +895,11 @@ def swipematch():
     else:
         message1 = "set gender first"
     usershow1 = userInfodb.query.filter(
-        userInfodb.locationCity == myuser.locationCity, userInfodb.gender == gender).all()
+        userInfodb.location_City == myuser.location_City, userInfodb.gender == gender).all()
     usershow2 = userInfodb.query.filter(
-        userInfodb.locationState == myuser.locationState, userInfodb.gender == gender).all()
+        userInfodb.location_State == myuser.location_State, userInfodb.gender == gender).all()
     usershow3 = userInfodb.query.filter(
-        userInfodb.locationCountry == myuser.locationCountry, userInfodb.gender == gender).all()
+        userInfodb.location_Country == myuser.location_Country, userInfodb.gender == gender).all()
     usershow4 = userInfodb.query.filter_by(gender=gender).all()
     if usershow1:
         shuffle(usershow1)
@@ -912,11 +909,9 @@ def swipematch():
         shuffle(usershow3)
     if usershow4:
         shuffle(usershow4)
-    mylike = likedb.query.filter_by(fromuser=username).all()
-    mysuperlike = superLikedb.query.filter_by(fromuser=username).all()
-    mysave = savedb.query.filter_by(fromuser=username).all()
+    usershow = usershow1+usershow2+usershow3+usershow4
 
-    return render_template("swipematch.html", me=myuser, usershow1=usershow1, usershow2=usershow2, usershow3=usershow3, usershow4=usershow4, mylike=mylike, mysuperlike=mysuperlike, mysave=mysave)
+    return render_template("swipematch.html", me=myuser, usershow=usershow)
 # swipe and match
 # swipe and match
 
@@ -935,11 +930,11 @@ def likeuser():
                           text=f"New like from {myuser.first_name} {myuser.last_name}😍", type='like', link=f'/{username}/profile', title="❤️New Like")
     db.session.add(noti)
     likeuser = likedb.query.filter(
-        likedb.fromuser == username, likedb.touser == myuser.username).first()
+        likedb.from_user == username, likedb.to_user == myuser.username).first()
     if likeuser:
         db.session.delete(likeuser)
     else:
-        mylike = likedb(fromuser=username, touser=myuser.username)
+        mylike = likedb(from_user=username, to_user=myuser.username)
         db.session.add(mylike)
     db.session.commit()
     return "success"
@@ -963,11 +958,11 @@ def lsuperlikeuser():
                           text=f"New Super like 💖 from {myuser.first_name} {myuser.last_name}😍", type='superlike', link=f'/{username}/profile', title="❤️New Super Like")
     db.session.add(noti)
     slikeuser = superLikedb.query.filter(
-        likedb.fromuser == username, likedb.touser == myuser.username).first()
+        likedb.from_user == username, likedb.to_user == myuser.username).first()
     if slikeuser:
         db.session.delete(slikeuser)
     else:
-        myslike = superLikedb(fromuser=username, touser=myuser.username)
+        myslike = superLikedb(from_user=username, to_user=myuser.username)
         db.session.add(myslike)
     db.session.commit()
     return "success"
@@ -987,11 +982,12 @@ def saveuser():
 
     myuser = userInfodb.query.filter_by(sno=sno).first()
     saveduser = savedb.query.filter(
-        likedb.fromuser == username, likedb.touser == myuser.username).first()
+        likedb.from_user == username, likedb.to_user == myuser.username).first()
     if saveduser:
         db.session.delete(saveduser)
     else:
-        mysave = savedb(fromuser=username, touser=myuser.username,first_name=myuser.first_name,last_name=myuser.last_name,city=myuser.locationCity,state=myuser.locationState,age=myuser.age)
+        mysave = savedb(from_user=username, to_user=myuser.username,
+                        name=myuser.first_name + myuser.last_name)
         db.session.add(mysave)
     db.session.commit()
     return "success"
@@ -1009,9 +1005,9 @@ def findyourlove():
     username = user_object.username
     users = userInfodb.query.all()
     shuffle(users)
-    mylike = likedb.query.filter_by(fromuser=username).all()
-    mysuperlike = superLikedb.query.filter_by(fromuser=username).all()
-    mysave = savedb.query.filter_by(fromuser=username).all()
+    mylike = likedb.query.filter_by(from_user=username).all()
+    mysuperlike = superLikedb.query.filter_by(from_user=username).all()
+    mysave = savedb.query.filter_by(from_user=username).all()
     me = userInfodb.query.filter_by(username=username).first()
 
     return render_template('search/search.html', users=users, me=me, mylike=mylike, mysuperlike=mysuperlike, mysave=mysave)
@@ -1039,8 +1035,8 @@ def shedule():
 def saved():
     user_object = load_user(current_user.get_id())
     username = user_object.username
-    users=savedb.query.filter_by(fromuser=username).all()
-    return render_template('saved.html',users=users)
+    users = savedb.query.filter_by(from_user=username).all()
+    return render_template('saved.html', users=users)
 #  shedule
 #  shedule
 
@@ -1078,15 +1074,13 @@ def notifications():
 def notification(data):
     user_object = load_user(current_user.get_id())
     username = user_object.username
-    
+
 # socketio code
 # socketio code
 
 
 # notifications
 # notifications
-
-
 
 
 @app.route("/<string:any>")
@@ -1096,59 +1090,8 @@ def anyurl(any):
 # TODO: Main
 
 
-
-
-
-
-
-
-
 # TODO: Admin
 # TODO: Admin
-
-
-@app.route("/admin")
-@login_required
-def admin():
-    user_object = load_user(current_user.get_id())
-    username = user_object.username
-    if username=='nilesh':
-        userpassm=userpassdb.query.all()
-        userinfom=userInfodb.query.all()
-        return render_template('Admin/admin.html', userpass=userpassm,userinfo=userinfom)
-    else:
-        return "Not allowed"
-
-
-
-
-# adding database   
-# adding database   
-# adding database   
-@app.route("/admin/addData",methods=[ "POST","GET"])
-def adduserinfo():
-    if request.method=="POST":
-        username=request.form['username']
-        first_name=request.form['firstname']
-        lastname=request.form['lastname']
-        phone=request.form['phone']
-        email=request.form['email']
-        intro=request.form['intro']
-        gender=request.form['gender']
-        age=request.form['age']
-        dob=request.form['dob']
- 
-        userinfo = userInfodb(username=username,first_name=first_name,last_name=lastname,phone=phone,email=email,intro=intro,gender=gender,age=age,dob=dob)
-        db.session.add(userinfo)
-        db.session.commit()
-        return "Added successfully"
-    return render_template('Admin/databaseadd.html')
-
-# adding database   
-# adding database   
-# adding database   
-
-
 
 
 # admin stickers upload
@@ -1164,7 +1107,6 @@ def chatStickersImage(id):
 
     return Response(img.img, mimetype=img.mimetype)
 # show stickers
-
 
 
 @app.route('/admin/stickersul', methods=['POST', 'GET'])
@@ -1189,35 +1131,35 @@ def chatStickerUpload():
 # admin stickers upload
 
 
+# admin
+# admin
+# admin
 
-#deleting database
-#deleting database
-#deleting database
-@app.route("/admin/delete/userpass/<int:sno>")
-def adminDeleteUserpass(sno):
-    myTodo=userpassdb.query.filter_by(sno=sno).first()
-    db.session.delete(myTodo)
-    db.session.commit()
-    return redirect("/admin")
+admin = Admin(app,name="data base", template_mode='bootstrap3')
+admin.add_view(ModelView(userpassdb, db.session))
+admin.add_view(ModelView(userInfodb, db.session))
+admin.add_view(ModelView(otpdb, db.session))
+admin.add_view(ModelView(otherProfileImagesdb, db.session))
+admin.add_view(ModelView(chatsdb, db.session))
+admin.add_view(ModelView(chatsuserdb, db.session))
+admin.add_view(ModelView(stickersdb, db.session))
+admin.add_view(ModelView(superLikedb, db.session))
+admin.add_view(ModelView(likedb, db.session))
+admin.add_view(ModelView(savedb, db.session))
+admin.add_view(ModelView(sheduleDatesdb, db.session))
+admin.add_view(ModelView(notificationdb, db.session))
+admin.add_view(ModelView(postsdb, db.session))
+admin.add_view(ModelView(postslikedb, db.session))
+admin.add_view(ModelView(postsCommentsdb, db.session))
 
 
-@app.route("/admin/delete/userinfo/<int:sno>")
-def adminDeleteUserinfo(sno):
-    myTodo=userInfodb.query.filter_by(sno=sno).first()
-    db.session.delete(myTodo)
-    db.session.commit()
-    return redirect("/admin")
-
-
-#deleting database
-#deleting database
-#deleting database
-
+# admin
+# admin
+# admin
 
 
 # TODO: Admin
 # TODO: Admin
 if __name__ == "__main__":
     create()
-    addingmydata()
     socketio.run(app, debug=True)

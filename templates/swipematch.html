@@ -191,7 +191,7 @@
     </script>
     <div class="swiper-container">
         <div class="swiper-wrapper">
-            {% for user in usershow1 %}
+            {% for user in usershow %}
             <div class="swiper-slide">
 
 
@@ -212,12 +212,12 @@
 
                             <h4><script>
                                 jQuery("location1{{user.sno}}").ready(function() {
-                                        d=getDistance({{user.latitude}},{{user.longitude}},{{me.latitude}},{{me.longitude}})
+                                        d=getDistance("{{user.latitude}}","{{user.longitude}}","{{me.latitude}}","{{me.longitude}}")
                                         document.getElementById("location1{{user.sno}}").innerText= d
                                       });
                                 </script>
                             <div class="location1" ><span class="material-icons">location_on</span><div id="location1{{user.sno}}">
-                            </div></div>{{user.locationCity}}, {{user.locationState}}, {{user.locationCountry}}</h4>
+                            </div></div>{{user.location_City}}, {{user.location_State}}, {{user.location_Country}}</h4>
                         </div>
 
                         <hr>
@@ -255,214 +255,7 @@
                 </div>
             </div>
             {% endfor %}
-            {% for user in usershow2 %}
-            <div class="swiper-slide">
-
-
-
-                <div class="inner">
-                    <div id="imageinfo">
-
-
-                        <img src="/profile/images/{{user.username}}" class="d-block w-100" alt="...">
-
-                    </div>
-                    <div id="info">
-                        <div class="name">
-
-                            <a href="/{{user.username}}/profile">
-                                <h4 id="nname">{{user.first_name}} {{user.last_name}} {{user.age}}😍</h4>
-                            </a>
-
-                            <h4><script>
-                                jQuery("location2{{user.sno}}").ready(function() {
-                                        d=getDistance({{user.latitude}},{{user.longitude}},{{me.latitude}},{{me.longitude}})
-                                        document.getElementById("location2{{user.sno}}").innerText= d
-                                      });
-                                </script>
-                            <div class="location1" ><span class="material-icons">location_on</span><div id="location2{{user.sno}}">
-                            </div></div>{{user.locationCity}}, {{user.locationState}}, {{user.locationCountry}}</h4>
-                        </div>
-                        <hr>
-                        <div id="info1">
-                            <h4>info💖</h4>
-                            <h5>{{user.intro}}
-                            </h5>
-                            <hr>
-                        </div>
-
-                        <div class="buttonsbar">
-
-
-                            <button onClick="myLike('like{{user.sno}}b','{{user.sno}}')" id="like{{user.sno}}b"
-                                type="button" class="btn btn-primary"><span id="span1" class="material-icons">
-                                    thumb_up_off_alt
-                                </span></button>
-
-
-
-                            <button onClick="mySuperLike('slike{{user.sno}}b','{{user.sno}}')" id="slike{{user.sno}}b"
-                                type="button" class="btn btn-primary"><span id="span2" class="material-icons">
-                                    favorite_border
-                                </span></button>
-
-
-                            <a href="/chats/{{user.username}}">
-                                <button id="button3" type="button" class="btn btn-primary"><span id="span3"
-                                        class="material-icons">
-                                        chat_bubble_outline
-                                    </span></button>
-                            </a>
-
-
-                            <button onClick="mySave('save{{user.sno}}b','{{user.sno}}')" id="save{{user.sno}}b"
-                                type="button" class="btn btn-primary"><span class="material-icons">
-                                    bookmark
-                                </span></button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            {% for user in usershow3 %}
-            <div class="swiper-slide">
-
-
-
-                <div class="inner">
-                    <div id="imageinfo">
-
-
-                        <img src="/profile/images/{{user.username}}" class="d-block w-100" alt="...">
-
-                    </div>
-                    <div id="info">
-                        <div class="name">
-
-                            <a href="/{{user.username}}/profile">
-                                <h4 id="nname">{{user.first_name}} {{user.last_name}} {{user.age}}😍</h4>
-                            </a>
-
-                            <h4><script>
-                                jQuery("location3{{user.sno}}").ready(function() {
-                                        d=getDistance({{user.latitude}},{{user.longitude}},{{me.latitude}},{{me.longitude}})
-                                        document.getElementById("location3{{user.sno}}").innerText= d
-                                      });
-                                </script>
-                            <div class="location1" ><span class="material-icons">location_on</span><div id="location3{{user.sno}}">
-                            </div></div>{{user.locationCity}}, {{user.locationState}}, {{user.locationCountry}}</h4>
-                        </div>
-                        <hr>
-                        <div id="info1">
-                            <h4>info💖</h4>
-                            <h5>{{user.intro}}
-                            </h5>
-                            <hr>
-                        </div>
-
-                        <div class="buttonsbar">
-
-
-                            <button onClick="myLike('like{{user.sno}}c','{{user.sno}}')" id="like{{user.sno}}c"
-                                type="button" class="btn btn-primary"><span id="span1" class="material-icons">
-                                    thumb_up_off_alt
-                                </span></button>
-
-
-
-                            <button onClick="mySuperLike('slike{{user.sno}}c','{{user.sno}}')" id="slike{{user.sno}}c"
-                                type="button" class="btn btn-primary"><span id="span2" class="material-icons">
-                                    favorite_border
-                                </span></button>
-
-
-                            <a href="/chats/{{user.username}}">
-                                <button id="button3" type="button" class="btn btn-primary"><span id="span3"
-                                        class="material-icons">
-                                        chat_bubble_outline
-                                    </span></button>
-                            </a>
-
-                            <button onClick="mySave('save{{user.sno}}c','{{user.sno}}')" id="save{{user.sno}}c"
-                                type="button" class="btn btn-primary"><span class="material-icons">
-                                    bookmark
-                                </span></button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            {% for user in usershow4 %}
-            <div class="swiper-slide">
-
-
-
-                <div class="inner">
-                    <div id="imageinfo">
-
-
-                        <img src="/profile/images/{{user.username}}" class="d-block w-100" alt="...">
-
-                    </div>
-                    <div id="info">
-                        <div class="name">
-
-                            <a href="/{{user.username}}/profile">
-                                <h4 id="nname">{{user.first_name}} {{user.last_name}} {{user.age}}😍</h4>
-                            </a>
-
-                            <h4><script>
-                                jQuery("location4{{user.sno}}").ready(function() {
-                                        d=getDistance({{user.latitude}},{{user.longitude}},{{me.latitude}},{{me.longitude}})
-                                        document.getElementById("location4{{user.sno}}").innerText= d
-                                      });
-                                </script>
-                            <div class="location1" ><span class="material-icons">location_on</span><div id="location4{{user.sno}}">
-                            </div></div>{{user.locationCity}}, {{user.locationState}}, {{user.locationCountry}}</h4>
-                        </div>
-                        <hr>
-                        <div id="info1">
-                            <h4>info💖</h4>
-                            <h5>{{user.intro}}
-                            </h5>
-                            <hr>
-                        </div>
-
-                        <div class="buttonsbar">
-
-                            <button onClick="myLike('like{{user.sno}}d','{{user.sno}}')" id="like{{user.sno}}d"
-                                type="button" class="btn btn-primary"><span id="span1" class="material-icons">
-                                    thumb_up_off_alt
-                                </span></button>
-
-
-
-                            <button onClick="mySuperLike('slike{{user.sno}}d','{{user.sno}}')" id="slike{{user.sno}}d"
-                                type="button" class="btn btn-primary"><span id="span2" class="material-icons">
-                                    favorite_border
-                                </span></button>
-
-
-                            <a href="/chats/{{user.username}}">
-                                <button id="button3" type="button" class="btn btn-primary"><span id="span3"
-                                        class="material-icons">
-                                        chat_bubble_outline
-                                    </span></button>
-                            </a>
-
-
-                            <button onClick="mySave('save{{user.sno}}d','{{user.sno}}')" id="save{{user.sno}}d"
-                                type="button" class="btn btn-primary"><span class="material-icons">
-                                    bookmark
-                                </span></button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+           
             <div class="swiper-slide">
 
             </div>

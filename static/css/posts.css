@@ -1,67 +1,91 @@
 .post {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    padding-bottom: 8px;
-    /* padding-top: 8px; */
-}
-
-.postimg {
-    height: 100vh;
-    width: 100vw;
-}
-
-.info {
-    position: absolute;
-    top: 20px;
-    right: 16px;
-    /* background-color:rgba(255, 255, 255, 0.171); */
-    font-weight: bold;
-    color: #e7007f;
-    text-shadow: -1px 1px 0 #ffd9ee,
-        1px 1px 0 #ffd9ee,
-        1px -1px 0 #ffd9ee,
-        -1px -1px 0 #ffd9ee;
-    ;
-    font-family: 'Alfa Slab One', cursive;
-
-}
-
-.like {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+    padding: 30px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
 
-.like h4 {
-    color: rgb(253, 253, 253);
-    text-shadow: 2px 2px #8f014f;
-    padding: 5px;
+.top {
+    display: flex;
+    justify-content: space-between;
 }
 
-.like .btn {
-    background-color: rgb(255, 159, 212);
-    /* background-color: rgb(255, 0, 140); */
-    padding: 8px;
-    color: rgb(255, 255, 255);
-    border: 3px solid rgba(255, 58, 179, 0.205);
+.post-user {
+    display: flex;
+
+}
+
+.post-user :hover {
+    cursor: pointer;
+}
+
+.post-user>div {
+    padding-left: 15px;
+}
+
+.post-user img {
+    height: 50px;
+    width: 50px;
     border-radius: 100%;
 }
 
-.like .btn span {
-    font-size: 35px;
-    font-weight: bold;
-    text-shadow: 2px 2px #e7007f;
+.post-user h4 {
+    padding: 0px;
+    margin: 0px;
+    font-size: 22px;
+}
+
+.post-user p {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    font-size: 16px;
+}
+
+.post-user span {
+    display: flex;
+    align-items: center;
+    padding: 0px 5px;
+    font-size: 18px;
+}
+
+
+.post-content {
+    padding: 25px;
+    padding-bottom: 10px;
 
 }
-.location{
+
+.post-img {
+    width: 100%;
+    padding: 15px 0px;
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
-.location1{
+
+.post-options {
     display: flex;
-    margin-right: 3px;
-    color:blueviolet
+    padding: 0px 40px;
+}
+
+.post-options button {
+    margin: 0px 3px;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 28px;
+    /* border: 3px solid rgb(255, 0, 144); */
+    /* color: rgb(255, 0, 153); */
+    /* background: rgb(253, 229, 233); */
+    border: 0px ;
+    color: rgb(67, 67, 67);
+
+    background-color: rgb(190, 217, 249);
+
+}
+
+.post-options button:hover {
+    background-color: rgb(99, 169, 255);
 }
