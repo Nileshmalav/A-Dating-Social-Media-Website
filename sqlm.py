@@ -77,7 +77,6 @@ class userInfodb(db.Model):
     
     posts = relationship("postsdb")
     other_profile_Images = relationship("otherProfileImagesdb")
-    posts = relationship("postsdb")
     notification = relationship("notificationdb")
     save = relationship("savedb")
     shedule_Dates = relationship("sheduleDatesdb")
