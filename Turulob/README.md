@@ -17,7 +17,7 @@ A Dating website using Flask as Backend
 # sample project is live at
 https://turulob.herokuapp.com/
 
-
+###### sample login id :user1   Password: Password1
 
 #
 
