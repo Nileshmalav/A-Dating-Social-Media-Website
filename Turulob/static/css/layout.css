@@ -258,3 +258,13 @@ img {
 #offcanvas-a span {
     color: white;
 }
+
+
+@media(max-width:760px){
+    .grid-item2{
+        display: none;
+    }
+    .grid-item1{
+        width: 100%;
+    }
+  }
