@@ -1162,5 +1162,6 @@ admin.add_view(ModelView(postsCommentsdb, db.session))
 # TODO: Admin
 # TODO: Admin
 if __name__ == "__main__":
-    create()
-    socketio.run(app, debug=True)
+    # create()
+    # app.app_context().push()
+    socketio.run(app, debug=True, host='1.1.1.1', port=5000)
